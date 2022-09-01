@@ -21,6 +21,11 @@
   - [Rendering lists and conditional Content](#rendering-list-and-conditional-content) 
   - [Handling the Key Warning](#Handling-the-Key-Warning)
   - [Outputting Conditional Content](#Outputting-conditional-content)
+- [Styling](#styling)
+  - [Setting Dynamic inline styles](#setting-dynamic-inline-styles)
+  - [Resetting Dynamic inline styles](#resetting-dynamic-inline-styles)
+  - [Setting CSS classes dynamically](#setting-css-classes-dynamically)
+  - [styled components](#styled-components)
 
 </br></br>
 
@@ -405,5 +410,159 @@ ____
  - If the `filteredExpenses` array length is equal to 0, then then our expensesContent is equal the 'not found' paragraph we've assigned it to.
  - finally, we simply add the components into our return statement with their respective listeners and change handlers, then we should be done!
 
+____
+
+</br>
+
+ <h2 style="text-align: center">Styling</h2>
+ </br>
+
+This is a review in which we'll go over how style components in our react app.
+
+____
+
+</br>
+
+ <h2 style="text-align: center">Setting Dynamic Inline Styles</h2>
+ </br>
+
+ So first, we're going set dynamic styling based on input. We'll need to add a hook to determine the state of our input. In this example, We're checking whether no an input is valid. Take a look:
+
+ ![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/styling-example-1.PNG)
+
+ Here, we're just changing one element of our button should the size be above 768 pixels. It will keep the rest of the attributes the same since the attributes will be passed from the styled component.
+
+ - In the `isValid` hook, we're assuming that the state is `true` initially
+ - We use this hooke to track the validity of our `enteredValue` variable
+ - Then in our `formSumbitHandler()` we trim the input (which is a vanilla javascript method. It gets rid of blank space on both sides of the input.), then determine if the string is empty after trimming. If so, we set the `isValid` variable to `false` and use the `return` keyword to end the function.
+ - If the text is valid, we run the function as usual.
+
+Now we want to transfer this logic to the JSX so React nows when to change an elements styling, like so:
+
+![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/styling-example-2.PNG)
+
+ - So here, we're going to change our label based on the value of our `isValid` variable. Since it's set to `true`, the color of the text is black.
+ - Now, if we we're to just hit the `add goal` button without any input. the value of `isValid` would then return `flase` based on the logic in our form handler. The text of our label should then turn red and not run the rest of the function.
 
 
+____
+
+</br>
+
+ <h2 style="text-align: center">Resetting Dynamic Inline Styles</h2>
+ </br>
+
+ to reset the styles we've done to our elements, we need to address the handler that tracks the value of our form input. Like this:
+
+ ![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/styling-example-3.PNG)
+
+ Following the same logic as before, we trim the value of our input and check it's length, in this specific condition, if the input is more than zero, our `isValid` variable is set to `true`, returning our label to the original styling.
+
+ <font color=red>**NOTE:**</font> This can be done for any scenario, in the case for css, React recognizes the styles in canel case, so for instance, ***text-align*** will be ***textAlign*** in React! <h2>inline styles ***will*** overwrite any changes you make in your css file!!!</h2>
+
+
+
+ 
+
+____
+
+</br>
+
+ <h2 style="text-align: center">Setting CSS classes dynamically</h2>
+ </br>
+
+ So now, we want to add CSS classes dynamically. Instead of addiong inline styles, we simply want to add our CSS class in our CSS folder, and add the class name to our elements accordingly.
+
+ ![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/dynamic-css-1.PNG)
+
+This is in our `CourseInput.css` file. Notice that we have both labels named accordingly to overwrite the styles when they have that class name. We now need to add logic to our code to add these class names dynamically.
+
+![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/styling-example-4.PNG)
+
+ - In this case, we've changed the div of the form instead of each individual element. We just reference each element through our CSS classes like normal. This is something like inline styles, only this time, we add a conditional statement to tell react to add the 'invaild' keyword or not. When we try to enter an input, it should be the same as before. When we continue to type, it should go away as well.
+
+Again, this can be made for any situatiin, but for the sake of this example, this is what I have.
+
+____
+
+</br>
+
+ <h2 style="text-align: center">Styled Components</h2>
+ </br>
+
+ [Styled components](https://styled-components.com/) is a  framework that allows us to style individual components and use them repeatedly for styling if need be. We'll do a little bit in this example.
+
+ So say that we want to restyle out `Button` component, we would start with something like this:
+
+ ![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/styled-components-1.PNG)
+
+ - so first, we import the `styled` module from its source, then we add one of the styled components. the `styled.button` variable is a predetermined argument in the module, but we're going to stykle it here
+ - if you also notice, the `styled.button` is followed by back ticks like this \` \` this is a native feature to javascript called a ***tagged template literal***.
+
+Now we add some CSS as usual with a couple differences:
+
+![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/styling-example-5.PNG)
+
+Now this button should function the same as before, only we can import the `Button` component ad use it in other files!
+
+
+____
+
+</br>
+
+ <h2 style="text-align: center">Media Queries</h2>
+ </br>
+
+You can make the page-responseive to different screen sizes through media queries in styled components. Like so:
+
+![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/media-query-1.PNG)
+
+This can be for any Javascript component (divs, forms, buttons, etc.)
+
+There are a couple different ways to style content dynamically. so here is a [resource](https://github.com/academind/react-complete-guide-code/tree/06-styling) for all of the methods. just to speed things up :grin:
+
+
+
+____
+
+</br>
+
+ <h2 style="text-align: center">Creating a Wrapper Component for Larger Apps</h2>
+ </br>
+
+ React has a requirement the JSX have a parent `<div>` the wraps all the elements inside of it. this can get quite messy if we ahave a big enough app, so we simply add a component like this:
+
+ ![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/wrapper-expample.PNG)
+
+ Basically this is just an empty component that  satisfies that technical requirements of React. We use it like this:
+
+ ![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/wrapper-expample-1.PNG)
+
+ So the `Wrapper` component encompasses everything, and serves as a parent div fro everthing beneath. Poof! no more parent div errors!!
+
+ 
+
+
+____
+
+</br>
+
+ <h2 style="text-align: center">React Fragments</h2>
+ </br>
+
+ Fragments are like `Wrapper` components, only this time, it's built in to React. It looks liek this:
+
+![alt-text](/NODE_REACT_REVIEW_REFRESHER/REACT-STUFF/photo-examples/wrapper-expample-2.PNG)
+
+As you can see, it works the same as `Wrapper` but it's just apart of React. Easy!
+
+<h2>You will need to import the fragment module to use this!!</h2>
+
+
+
+____
+
+</br>
+
+ <h2 style="text-align: center">React Portals</h2>
+ </br>
